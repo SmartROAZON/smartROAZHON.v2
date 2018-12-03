@@ -1,0 +1,35 @@
+#div1, #div2, #div3, #div4, #div5 {
+    float: left;
+    width: 200px;
+    height: 70px;
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid black;
+}
+
+#douz {
+    float: left;
+    width: 70px fixed;
+    height: 70px fixed;
+    margin: 10px;
+    padding: 10px;
+	text-align: center;
+}
+
+
+
+.dual-list .list-group {
+	margin-top: 8px;
+}
+
+.list-left li, .list-right li {
+	cursor: pointer;
+}
+
+.list-arrows {
+	padding-top: 100px;
+}
+
+.list-arrows button {
+	margin-bottom: 20px;
+}

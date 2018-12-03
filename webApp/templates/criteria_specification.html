@@ -1,0 +1,90 @@
+
+{% extends "index.html" %}
+
+{% block content %}
+
+<div class="row" >
+
+
+<div class="container register">
+                <div class="row">
+                    <div class="col-md-3 register-left">
+                        <img src="https://image.ibb.co/n7oTvU/logo_white.png" alt=""/>
+                        <h3>Calcul de prédiction</h3>
+                        <p>Remplir les champs selon les critères.</p>
+                        <!-- <input type="submit" name="" value="Login"/><br/> -->
+                    </div>
+                    <div class="col-md-9 register-right">
+						
+                            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+								<h3 class="register-heading">Prédiction</h3>
+								<div class="row register-form">
+							
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <input type="number" class="form-control" placeholder="Nombre de Premier critères *" value="" />
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="number" class="form-control" placeholder="Nombre de Deuxième critères *" value="" />
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <select class="form-control">
+                                                <option class="hidden"  selected disabled>Logement</option>
+                                                <option>T1</option>
+                                                <option>T2</option>
+                                                <option>T3</option>
+												<option>T4</option>
+                                                <option>T5</option>
+                                            </select>
+                                        </div>
+
+										<div class="form-group">
+                                            <select class="form-control">
+                                                <option class="hidden"  selected disabled>Autre critères</option>
+                                                <option>Nombre de bar</option>
+                                                <option>Nombre de master connu</option>
+                                                <option>Nombre d'emploi</option>
+                                            </select>
+                                        </div>
+									
+                                        <!-- <input type="submit" class="btnRegister"  value="Prédire" href="/" /> -->
+										<a id="prediction" href="#success" class="btnRegister" data-toggle="modal"> Prédire </a>
+                                    </div>
+								
+                                </div>
+                            </div>
+                    
+                    </div>
+                </div>
+				
+				<!-- second row -->
+				<div class="row">
+				    <div class="modal fade" id="success" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header modal-header-success">
+										<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+									</div>
+									<div class="modal-body">
+									<div id="modalBody">
+									<img src="/static/img/patientez.gif" width="200" height="50" style="background-color:white;left:50%"/>
+									<h5 style="padding:10px;"> calcul des prédictions et génération de résultat en cours ...</h5>
+									</div>
+									</div>
+									<div class="modal-footer">
+										<!-- <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button> -->
+									</div>
+								</div><!-- /.modal-content -->
+							</div><!-- /.modal-dialog -->
+					</div><!-- /.modal -->
+				</div>
+				
+				
+				
+
+</div>
+</div>
+{% endblock %}

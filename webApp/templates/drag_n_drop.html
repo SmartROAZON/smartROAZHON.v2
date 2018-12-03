@@ -1,0 +1,111 @@
+
+{% extends "index.html" %}
+
+{% block content %}
+<h2 style="padding:20px;">Drag and Drop</h2>
+<p>Glisser les criteres dans le cadre afin de savoir la structure de la population.</p>
+<div id="brut" class="row" >
+
+        <div class="dual-list list-left col-md-5" style="background-color:#4d967b;padding: 10px;">
+            <div class="well text-right">
+                <div class="row">
+                    <div class="col-md-10">
+                        <div class="input-group">
+                            <span class="input-group-addon glyphicon glyphicon-search"></span>
+                            <input type="text" name="SearchDualList" class="form-control" placeholder="search" />
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="btn-group">
+                            <a class="btn btn-default selector" title="select all"><i class="glyphicon glyphicon-unchecked"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <ul class="list-group">
+                    <li id="1" class="list-group-item" ondrop="drop(event)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event)">T1</li>
+                    <li id="2" class="list-group-item" ondrop="drop(event)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event)">T2</li>
+                    <li id="3" class="list-group-item" ondrop="drop(event)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event)">T3</li>
+                    <li id="4" class="list-group-item" ondrop="drop(event)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event)">T4</li>
+                    <li id="5" class="list-group-item" ondrop="drop(event)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event)">T5</li>
+                </ul>
+            </div>
+        </div>
+		
+		<div class="col-md-1"></div>
+		<div class="dual-list list-left col-md-5 col-md-offset-2" style="background-color:#4d967b;padding: 10px;">
+            <div class="well text-right">
+                <div class="row">
+                    <div class="col-md-10">
+                        <div class="input-group">
+                            <span class="input-group-addon glyphicon glyphicon-search"></span>
+                            <input type="text" name="SearchDualList" class="form-control" placeholder="search" />
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="btn-group">
+                            <a class="btn btn-default selector" title="select all"><i class="glyphicon glyphicon-unchecked"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <ul class="list-group">
+                    <li id="6" class="list-group-item" ondrop="drop(event)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event)">critere_1</li>
+                    <li id="7" class="list-group-item" ondrop="drop(event)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event)">critere_2</li>
+                    <li id="8" class="list-group-item" ondrop="drop(event)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event)">critere_3</li>
+                    <li id="9" class="list-group-item" ondrop="drop(event)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event)">critere_4</li>
+                    <li id="10" class="list-group-item" ondrop="drop(event)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event)">critere_5</li>
+                </ul>
+            </div>
+        </div>
+
+
+
+<div class="col-md-12" style="padding:20px;">
+<div id="douz">
+<input type="button" value="Réintialisé" id="reset" onclick="reset1();" style=""> 
+</div>
+			<div id="div1" ondrop="drop(event)" ondragover="allowDrop(event)">
+			</div>
+
+			<div id="douz" disabled>
+				<img src="/static/img/plus.png" width="45px" height="45px">
+			</div>
+			<div id="div2" ondrop="drop(event)" ondragover="allowDrop(event)" >
+			</div>
+	
+			<div id="douz" disabled>
+				<a><img src="/static/img/equal.jpg" width="60px" height="60px" ></a>
+			</div>
+
+			
+			<div id="div4">
+			<a id="perform" href="#" onclick="criteria()" class="btn-generate"> Générer </a>
+			</div>
+
+			<br><br><br><br><br>
+
+
+
+
+</div>
+
+<div class="modal fade" id="load" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header modal-header-success">
+										<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+									</div>
+									<div class="modal-body">
+									<div id="modalBody">
+									<img src="/static/img/patientez.gif" width="200" height="50" style="background-color:white;left:50%"/>
+									<h5 style="padding:10px;"> Validation de la règle et création graphique de l'équation ...</h5>
+									</div>
+									</div>
+									<div class="modal-footer">
+										<!-- <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button> -->
+									</div>
+								</div><!-- /.modal-content -->
+							</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+</div>
+{% endblock %}
