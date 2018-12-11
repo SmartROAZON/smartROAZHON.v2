@@ -1,6 +1,7 @@
 <!DOCTYPE HTML>
 <html>
 <head>
+<meta charset="UTF-8">
 <!-- <script src="//code.jquery.com/jquery-1.11.1.min.js"></script> -->
 <!-- <link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css"> -->
 <!-- <script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script> -->
@@ -14,8 +15,7 @@
 
 </head>
 <body>
-<div class="container">
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
   <a class="navbar-brand" href="" disabled>Smart ROAZON</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -23,13 +23,25 @@
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
+	<li class="nav-item">
+        <a class="nav-link" href="/">Accueil </a>
+    </li>
+	<li class="nav-item">
+        <a class="nav-link" href="/fileForm">Ajout de fichiers donnée </a>
+    </li>
+	
+	  <li class="nav-item">
+        <a class="nav-link" href="/generationRegle">Générateur de règle </a>
+      </li>
       <li class="nav-item">
-        <a class="nav-link" href="/">Générateur de règle </a>
+        <a class="nav-link" href="/drag">Drag drop </a>
       </li>
 	  
 	  <li class="nav-item">
         <a class="nav-link" href="/criteriaForm">Calcul de prédiction </a>
       </li>
+	  
+
 	  
       <li class="nav-item">
         <!-- <a class="nav-link" href="#">Link</a> -->
@@ -42,6 +54,8 @@
     </form>
   </div>
 </nav>
+<div class="container">
+
 	
 	
 {% block content %}
@@ -49,8 +63,48 @@
 </div>
 </body>
 <script>
-var container = document.getElementById("brut");  
-var content = container.innerHTML;
+
+
+function showWait(){
+	var hiddenDiv = document.getElementById("wait");
+    hiddenDiv.style.display = (this.value == "") ? "none":"block";
+}
+	
+	
+$('#fileSelect').on('change',function() {
+	//console.log("#desc_" +$(this).val()[0]);
+	//$("#desc_" + $(this).val()[0]).toggle();
+	$('#description > div').each(function () {  $(this).removeAttr("style").hide();});
+	var hiddenDiv = document.getElementById("desc_" + $(this).val()[0]);
+    hiddenDiv.style.display = (this.value == "") ? "none":"block";
+	
+	// preparation model nettoyage
+
+	var find="#desc_" +$(this).val()[0];
+	find=find.split(".");
+	//$(find).get(0);
+	// $(find[0]+"\\."+find[1] +' > ul > li').css( "border", "3px double red" );
+	$('#cols').empty();
+	$(find[0]+"\\."+find[1] +' > ul > li > span').each(function () {
+		//console.log();
+		var $div =  $('<div/>',{ "class": "form-check" });
+		var $ctrl = $('<input/>').attr({ "class":"form-check-input", type: 'checkbox', name:'chk',value:$(this)[0].id.split("_")[1], id:$(this)[0].id.split("_")[1]});
+		var $label = $('<label/>').attr({ "class":"form-check-label", name:$(this).text(), value:$(this).text(),'for':$(this)[0].id.split("_")[1]}).text($(this).text());
+		$('#cols').append($div.append([$ctrl,$label])).css("overflow-y", "scroll").height("350px");
+		
+
+		//console.log($(this).text());
+	});
+	
+	console.log($(this).val()[0]);
+		var $fileName = $('<input/>').attr({ "class":"hidden", name:'fileName', type:'text'}).val($(this).val()[0]);
+		$('#cols').append($fileName);
+	
+	//$('#cols').each(function () {  $('#cols').append});
+	
+	
+});
+
 
 
 function criteria(){
@@ -61,37 +115,34 @@ function criteria(){
 	console.log(second);
 	document.getElementById('perform').setAttribute('href', '/executeScript/' + first + '/'+second);
 }
-function allowDrop(ev) {
-    ev.preventDefault();
-}
+<!-- function allowDrop(ev) { -->
+    <!-- ev.preventDefault(); -->
+<!-- } -->
 
-function drag(ev) {
-    ev.dataTransfer.setData("text", ev.target.id);
-}
+<!-- function drag(ev) { -->
+    <!-- ev.dataTransfer.setData("text", ev.target.id); -->
+<!-- } -->
 
-function drop(ev) {
-    ev.preventDefault();
-    var data = ev.dataTransfer.getData("text");
-    //ev.target.appendChild(document.getElementById(data));
-    //document.getElementById(data).draggable=false;
-	 ev.preventDefault();
-    var data = ev.dataTransfer.getData("text");
-    var evtarget=ev.target;
-      if (evtarget=="[object HTMLImageElement]"){
-           evtarget = evtarget.parentNode;
-      }
-      else {
-      ev.target.appendChild(document.getElementById(data));
-      }
-}
+<!-- function drop(ev) { -->
+    <!-- ev.preventDefault(); -->
+    <!-- var data = ev.dataTransfer.getData("text"); -->
+    <!-- //ev.target.appendChild(document.getElementById(data)); -->
+    <!-- //document.getElementById(data).draggable=false; -->
+	 <!-- ev.preventDefault(); -->
+    <!-- var data = ev.dataTransfer.getData("text"); -->
+    <!-- var evtarget=ev.target; -->
+      <!-- if (evtarget=="[object HTMLImageElement]"){ -->
+           <!-- evtarget = evtarget.parentNode; -->
+      <!-- } -->
+      <!-- else { -->
+      <!-- ev.target.appendChild(document.getElementById(data)); -->
+      <!-- } -->
+<!-- } -->
 
 function reset1(){
     var container = document.getElementById("brut");
     container.innerHTML= html;
 }     
-var html;
-window.onload = function(){
-	html = document.getElementById("brut").innerHTML;
-};  
+
 </script>
 </html>

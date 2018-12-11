@@ -1,0 +1,310 @@
+
+{% extends "index.html" %}
+
+{% block content %}
+<style>
+* {
+  box-sizing: border-box;
+}
+#myInput {
+  background-image: url('static/img/searchicon.png');
+  background-position: 10px 9px;
+  background-repeat: no-repeat;
+  width: 100%;
+  font-size: 16px;
+  padding: 12px 20px 12px 40px;
+  border: 1px solid #ddd;
+  margin-bottom: 12px;
+}
+#myUL {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.dropy {
+  float: left;
+  width: 200px;
+  height: 100px;
+  margin: 10px;
+  padding: 10px;
+  border: 3px dashed #ccc;
+  text-align:center;
+}
+
+<!-- .dropy:hover:after { -->
+  <!-- content: 'posez moi ici' -->
+<!-- } -->
+
+
+*[draggable=true] {
+  -moz-user-select:none;
+  -khtml-user-drag: element;
+  cursor: move;
+}
+
+*:-khtml-drag {
+  background-color: rgba(238,238,238, 0.5);
+}
+
+.lia:hover:after {
+   content: ' (glissez moi dans un cadre en bas)';
+}
+
+.lia:hover{
+   background:#caffd6;
+   border:3px dashed #3ab53a;
+}
+
+
+
+.lia.over {
+  border-color: #333;
+  background: #ccc;
+}
+
+.diva {
+  text-decoration: none;
+  color: #000;
+  margin: 10px;
+  width: 150px;
+  border: 3px dashed #999;
+  background: #eee;
+  padding: 10px;
+  display: block;
+}
+
+
+
+</style>
+<script>
+function myFunction() {
+    var input, filter, ul, li, a, i, txtValue;
+    input = document.getElementById("myInput");
+    filter = input.value.toUpperCase();
+    ul = document.getElementById("myUL");
+    li = ul.getElementsByTagName("li");
+	//console.log(li);
+    for (i = 0; i < li.length; i++) {
+        //a = li[i].getElementsByTagName("a")[0];
+        txtValue = li[i].textContent || li[i].innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            li[i].style.display = "";
+        } else {
+            li[i].style.display = "none";
+        }
+    }
+}
+
+function allowDrop(ev) {
+  ev.preventDefault();
+}
+
+function drag(ev) {
+  ev.dataTransfer.setData("text", ev.target.id);
+}
+
+function drop(ev) {
+  ev.preventDefault();
+  var data = ev.dataTransfer.getData("text");
+  //ev.target.appendChild(document.getElementById(data));
+  //    var data = ev.dataTransfer.getData("text");
+    var evtarget=ev.target;
+      if (evtarget=="[object HTMLImageElement]"){
+           evtarget = evtarget.parentNode;
+      }
+      else {
+      ev.target.appendChild(document.getElementById(data));
+	  console.log(ev.target.children[2].id+" - "+ev.target.children[2].getAttribute('name'));
+	  
+	  console.log(ev.target.id)
+	  
+	  document.getElementById("crit_"+ev.target.id).value=ev.target.children[2].id;
+	  document.getElementById("file_"+ev.target.id).value=ev.target.children[2].getAttribute('name');
+	  
+	  var form = document.getElementById('regle');
+	  var divs = form.getElementsByTagName('DIV');
+	  document.getElementById("nbrDiv").value=divs.length;
+	  
+      }
+	  
+	 document.getElementById(data).classList.remove("lia");
+}
+
+function sortList() {
+  var list, i, switching, b, shouldSwitch;
+  list = document.getElementById("myUL");
+  switching = true;
+  /*Make a loop that will continue until
+  no switching has been done:*/
+  while (switching) {
+    //start by saying: no switching is done:
+    switching = false;
+    b = list.getElementsByTagName("LI");
+    //Loop through all list-items:
+    for (i = 0; i < (b.length - 1); i++) {
+      //start by saying there should be no switching:
+      shouldSwitch = false;
+      /*check if the next item should
+      switch place with the current item:*/
+      if (b[i].innerHTML.toLowerCase() > b[i + 1].innerHTML.toLowerCase()) {
+        /*if next item is alphabetically
+        lower than current item, mark as a switch
+        and break the loop:*/
+        shouldSwitch = true;
+        break;
+      }
+    }
+    if (shouldSwitch) {
+      /*If a switch has been marked, make the switch
+      and mark the switch as done:*/
+      b[i].parentNode.insertBefore(b[i + 1], b[i]);
+      switching = true;
+    }
+  }
+}
+
+
+function doubleClick(ev){
+console.log(ev.target);
+
+	if(ev.target.tagName =='LI' && ev.target.parentElement.id != 'myUL')
+		{
+		  document.getElementById(ev.target.id).classList.add("lia");
+		  document.getElementById('myUL').append(ev.target);
+		  
+		  sortList();
+		}
+
+}
+
+
+function ajouterCadre(ev){
+console.log(ev);
+
+var form = document.getElementById('regle');
+var divs = form.getElementsByTagName('DIV');
+
+var boxInputCrit = '<input type="hidden"  id="crit_'+(divs.length+1)+'" name="crit_'+(divs.length+1)+'">'
+var boxInputFile = '<input type="hidden"  id="file_'+(divs.length+1)+'" name="file_'+(divs.length+1)+'">'
+var box = '<div id="'+(divs.length+1)+'" class="dropy" ondrop="drop(event)" ondragover="allowDrop(event)">'+boxInputCrit+boxInputFile+'</div>';
+
+console.log(divs.length); 
+if(divs.length<4)
+{
+	form.innerHTML+=box;
+}else
+{
+	alert('vous ne pouvez pas avoir plus de 4 critères.');
+}
+
+
+}
+
+function enleverCadre(ev){
+console.log(ev);
+//var box = '<div id="3" class="dropy" ondrop="drop(event)" ondragover="allowDrop(event)"></div>';
+var form = document.getElementById('regle');
+var divs = form.getElementsByTagName('DIV');
+//form.removeChild(form.childNodes[0]);  
+
+if(divs.length>2)
+{
+form.removeChild(divs[divs.length-1]); // delete last box
+}else
+{
+	alert('vous devez avoir au moin deux critères.');
+}
+
+document.getElementById("nbrDiv").value=divs.length;
+
+}
+
+</script>
+
+
+<div class="row" style="padding-bottom:30px;">
+<form class="col-md-12">
+  <div class="form-group" style="padding-top:30px;">
+    <label for="myInput"><h3>Générateur de règle</h3> </label>
+	<p> Chercher et glisser les critères que vous voulez dans les cadres en bas.</p>
+  </div>
+  <div class="form-group">
+    <!-- <label for="myInput">Les critères récupérés </label> -->
+    <input type="text" class="form-control" id="myInput" placeholder="Rechercher un critère dans la liste ..." 
+	onkeyup="myFunction()">
+  </div>
+  <div class="form-group">
+    <!-- <label for="exampleFormControlSelect2">List des criètre</label> -->
+    <!-- <select multiple class="form-control" id="myUL"> -->
+      <!-- <option class="lia" id="d1" draggable="true" ondragstart="drag(event)" style="padding:10px;border:1px solid;">Logement T1</option> -->
+      <!-- <option class="lia" id="d2" draggable="true" ondragstart="drag(event)"style="padding:10px;border:1px solid;">Logement T2</option> -->
+      <!-- <option class="lia" id="d3" draggable="true" ondragstart="drag(event)"style="padding:10px;border:1px solid;">Logement T3</option> -->
+      <!-- <option class="lia" id="d4" draggable="true" ondragstart="drag(event)"style="padding:10px;border:1px solid;">Logement T4</option> -->
+      <!-- <option class="lia" id="d5" draggable="true" ondragstart="drag(event)"style="padding:10px;border:1px solid;">Maison</option> -->
+    <!-- </select> -->
+  
+  
+  <ul id="myUL" class="list-group" style="overflow-y:scroll;">
+  {% for object in listFiles %}
+					{% for item in object[1] %}
+<li id="c_{{item[0]|safe}}" name="{{object[0]|safe}}" draggable="true" ondblclick="doubleClick(event)" ondragstart="drag(event)" class="lia list-group-item">
+{{item[1]|safe}} 
+</li> 
+					{% endfor %}		
+{% endfor %}
+   </ul>
+  
+  </div>
+</form>
+
+
+
+
+<!-- <input id="myInput" onkeyup="myFunction()" class="col-md-4 form-check-input" type="text" placeholder="Rechercher un critère..." title="Chooisissez un caractère"> -->
+
+
+
+<!-- <ul id="myUL"> -->
+  <!-- <li class="lia"><a class="lia" id="drag1" href="#" draggable="true" ondragstart="drag(event)">Adele</a></li> -->
+  <!-- <li><a class="lia" id="drag2" href="#" draggable="true" ondragstart="drag(event)">Agnes</a></li> -->
+  <!-- <li><a class="lia" id="drag3" href="#" draggable="true" ondragstart="drag(event)">Billy</a></li> -->
+  <!-- <li><a class="lia" id="drag4" href="#" draggable="true" ondragstart="drag(event)">Cindy</a></li> -->
+<!-- </ul> -->
+
+
+
+<p class="col-md-12">Déposer vos critères choisis dans ces cadres (un seul criètre dans un cadre) ci-dessous <br>
+(double cliquer sur le critère pour l'enlever du cadre) 
+<ul class="col-md-12 px-5">
+<li>Appuyer sur le boutton <b>+</b> pour ajouter un cadre</li>
+<li>Appuyer sur le boutton <b>-</b> pour supprimer un cadre</li>
+</ul>
+</p>
+
+<div class="col-md-1">
+<button type="button" onclick="ajouterCadre(event)"> <img src="static/img/plus.png" width="50px" height="50px"></img></button>
+<button type="button" onclick="enleverCadre(event)"> <img src="static/img/moins.png" width="50px" height="50px"></img></button>
+</div>
+
+<form class="form-inline" id ="regle" action="/calculRegle" method="post">
+<input type="hidden"  id="nbrDiv" name="nbrDiv" value="-1">
+<input style="position: absolute; right: 3%;" class="btn btn-info" type="submit" value="Générer la règle">  </input>
+
+<div id="1" class="dropy" ondrop="drop(event)" ondragover="allowDrop(event)">
+ <input type="hidden"  id="crit_1" name="crit_1">
+ <input type="hidden"  id="file_1" name="file_1">
+</div>
+
+<div id="2" class="dropy" ondrop="drop(event)" ondragover="allowDrop(event)">
+ <input type="hidden"  id="crit_2" name="crit_2">
+ <input type="hidden"  id="file_2" name="file_2">
+</div>
+
+
+</form>
+
+
+
+</div>
+{% endblock %}

@@ -1,7 +1,11 @@
         $(function () {
+			$('.custom-file-input').on('change', function() { 
+			   let fileName = $(this).val().split('\\').pop(); 
+			   $(this).next('.custom-file-label').addClass("selected").html(fileName); 
+			});
 
             $('body').on('click', '.list-group .list-group-item', function () {
-                $(this).toggleClass('active');
+                // $(this).toggleClass('active');
             });
             $('.list-arrows button').click(function () {
                 var $button = $(this), actives = '';
@@ -36,5 +40,7 @@
                     return !~text.indexOf(val);
                 }).hide();
             });
+
+			
 
         });

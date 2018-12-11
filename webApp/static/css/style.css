@@ -17,6 +17,19 @@
 	text-align: center;
 }
 
+.hidden {
+     display:none;
+}
+
+
+/* list group fichier  */
+.list-group{
+    max-height: 300px;
+    margin-bottom: 10px;
+    overflow:scroll;
+    -webkit-overflow-scrolling: touch;
+}
+
 
 
 .dual-list .list-group {
